@@ -3,12 +3,16 @@
 
 #include "Public/Characters/CharacterBase.h"
 
+#include "AbilitySystem/ZBAbilitySystemComponent.h"
+#include "AbilitySystem/ZBAttributeSet.h"
 
 
 ACharacterBase::ACharacterBase()
 {
 	
 	PrimaryActorTick.bCanEverTick = true;
+
+
 }
 
 

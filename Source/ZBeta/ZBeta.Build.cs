@@ -21,7 +21,12 @@ public class ZBeta : ModuleRules
 			"Slate"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { });
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"GameplayAbilities",
+			"GameplayTags",
+			"GameplayTasks" 
+		});
 
 		PublicIncludePaths.AddRange(new string[] {
 			"ZBeta",
