@@ -16,3 +16,8 @@ AZBPlayerState::AZBPlayerState()
 	AttributeSet = CreateDefaultSubobject<UZBAttributeSet>("AttributeSet");
 	
 }
+
+UAbilitySystemComponent* AZBPlayerState::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}

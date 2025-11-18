@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/PlayerState.h"
 #include "ZBPlayerState.generated.h"
 
@@ -15,12 +16,14 @@ class UAttributeSet;
  * 
  */
 UCLASS()
-class ZBETA_API AZBPlayerState : public APlayerState
+class ZBETA_API AZBPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	AZBPlayerState();
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
 
 
 protected:
