@@ -56,7 +56,13 @@ protected:
 
 	virtual void BeginPlay() override;
 
-
+	/**
+	 * @brief 初始化 GAS 的 ActorInfo
+	 * 这是一个虚函数，基类必须提供实现，哪怕是空的。
+	 * 子类 (Player/Enemy) 会覆盖它来执行具体的初始化逻辑。
+	 */
+	virtual void InitAbilityActorInfo();
+	
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -66,7 +72,7 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 
-	virtual void InitAbilityActorInfo();
+
 
 private:
 	

@@ -16,8 +16,10 @@ public:
 	AZBPlayerCharacter();
 	
 
+	// @brief 当 Pawn 被新 Controller 占有时调用（服务器 + 本地都会走，但服务器为权威）
 	virtual void PossessedBy(AController* NewController) override;
 
+	// @brief 当 PlayerState 在客户端复制完成后回调（仅客户端执行）
 	virtual void OnRep_PlayerState() override;
 
 
@@ -30,7 +32,15 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	// @brief 初始化 AbilitySystemComponent 的 Owner/Avatar（统一封装）
 	virtual void InitAbilityActorInfo() override;
+
+private:
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<class UCameraComponent> TopDownCameraComponent;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<class USpringArmComponent> SpringArmComponent;
 
 
 };

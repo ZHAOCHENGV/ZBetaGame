@@ -18,7 +18,8 @@ public class ZBeta : ModuleRules
 			"StateTreeModule",
 			"GameplayStateTreeModule",
 			"UMG",
-			"Slate", "GameplayAbilities"
+			"Slate", 
+			"GameplayAbilities"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]

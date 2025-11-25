@@ -22,6 +22,11 @@ void AZBCharacterBase::BeginPlay()
 	
 }
 
+void AZBCharacterBase::InitAbilityActorInfo()
+{
+	
+}
+
 
 void AZBCharacterBase::Tick(float DeltaTime)
 {

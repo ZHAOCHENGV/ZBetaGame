@@ -8,7 +8,7 @@
 
 AZBEnemyCharacter::AZBEnemyCharacter()
 {
-	
+	 
 	PrimaryActorTick.bCanEverTick = true;
 	AbilitySystemComponent = CreateDefaultSubobject<UZBAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
@@ -25,12 +25,18 @@ void AZBEnemyCharacter::PossessedBy(AController* NewController)
 void AZBEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	InitAbilityActorInfo();
+	if (HasAuthority())
+	{
+		//TODO 初始化能力
+	}
 	
 }
 
 void AZBEnemyCharacter::InitAbilityActorInfo()
 {
 	Super::InitAbilityActorInfo();
+	
 }
 
 
