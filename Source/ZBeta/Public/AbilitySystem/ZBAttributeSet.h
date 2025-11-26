@@ -29,20 +29,51 @@ public:
 	/*
 	* 主要属性
 	*/
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_Health, Category = "Vital Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_Health, Category = "Vital Attributes" , meta=(DisplayName = "生命"))
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UZBAttributeSet,Health);
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_Mana, Category = "Vital Attributes" , meta=(DisplayName = "法力"))
+	FGameplayAttributeData Mana;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet,Mana);
 	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_Stamina, Category = "Vital Attributes", meta=(DisplayName = "体力"))
+	FGameplayAttributeData Stamina;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet,Stamina);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_MaxHealth, Category = "Vital Attributes")
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UZBAttributeSet,MaxHealth);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_Strength, Category = "Vital Attributes", meta=(DisplayName = "力量"))
+	FGameplayAttributeData Strength;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet,Strength);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_Intelligence, Category = "Vital Attributes", meta=(DisplayName = "智力"))
+	FGameplayAttributeData Intelligence;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet,Intelligence);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_Dexterity, Category = "Vital Attributes", meta=(DisplayName = "敏捷"))
+	FGameplayAttributeData Dexterity;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet,Dexterity);
+
+
+
+
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
 
 	UFUNCTION()
-	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
+	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
+	
+	UFUNCTION()
+	void OnRep_Stamina(const FGameplayAttributeData& OldStamina) const;
+
+	UFUNCTION()
+	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
+
+	UFUNCTION()
+	void OnRep_Dexterity(const FGameplayAttributeData& OldDexterity) const;
+
+	UFUNCTION()
+	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
+
 };
 
