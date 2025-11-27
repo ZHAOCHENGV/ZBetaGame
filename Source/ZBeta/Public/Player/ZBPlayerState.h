@@ -27,7 +27,7 @@ public:
 
 
 protected:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	
 	UPROPERTY()

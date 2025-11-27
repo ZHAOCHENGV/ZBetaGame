@@ -116,8 +116,15 @@ void AZBPlayerCharacter::BeginPlay()
 void AZBPlayerCharacter::InitAbilityActorInfo()
 {
 	//检测PlayerState是否有效
-	AZBPlayerState* ZBAttributeState = GetPlayerState<AZBPlayerState>();
-	check(ZBAttributeState);
+	AZBPlayerState* ZBPlayerState = GetPlayerState<AZBPlayerState>();
+	check(ZBPlayerState);
+
+	//设置Owner/Avatar
+	ZBPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(ZBPlayerState,this);
+	//本角色缓存 ASC / AttributeSet，统一从 PS 获取（保持与 GAS 绑定一致）
+	AbilitySystemComponent = ZBPlayerState->GetAbilitySystemComponent();
+	AttributeSet = ZBPlayerState->GetAttributeSet();
+	InitializePrimaryAttributes();
 	
 }
 

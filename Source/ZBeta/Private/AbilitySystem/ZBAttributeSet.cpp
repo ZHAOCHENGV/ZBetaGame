@@ -12,45 +12,166 @@ UZBAttributeSet::UZBAttributeSet()
 void UZBAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet,Health,COND_None,REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet,Mana,COND_None,REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet,Stamina,COND_None,REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet,Strength,COND_None,REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet,Dexterity,COND_None,REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet,Intelligence,COND_None,REPNOTIFY_Always);
+	// 1. 主要属性
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, Health, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, Mana, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, Stamina, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, Strength, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, Intelligence, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, Dexterity, COND_None, REPNOTIFY_Always);
+
+    // 2. 属性上限
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, MaxStamina, COND_None, REPNOTIFY_Always);
+
+    // 3. 抗性
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, Toughness, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, MagicResistance, COND_None, REPNOTIFY_Always);
+
+    // 4. 回复
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, HealthRegenRate, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, ManaRegenRate, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, StaminaRegenRate, COND_None, REPNOTIFY_Always);
+
+    // 5. 吸取
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, LifeSteal, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, ManaSteal, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, StaminaSteal, COND_None, REPNOTIFY_Always);
+
+    // 6. 状态
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, CriticalChance, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, CriticalDamage, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, MoveSpeed, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, StaminaCostMultiplier, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UZBAttributeSet, MaxEquipmentLoad, COND_None, REPNOTIFY_Always);
+}
 
 	
-}
+// ========================================================================================
+// 网络回调实现 (Replication Notifies)
+// 宏 GAMEPLAYATTRIBUTE_REPNOTIFY 负责处理预测回滚和旧值比对
+// ========================================================================================
 
-void UZBAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
+// --- 主要属性 ---
+void UZBAttributeSet::OnRep_Health(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet,Health,OldHealth);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, Health, OldValue);
 }
 
-void UZBAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const
+void UZBAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet,Mana,OldMana);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, Mana, OldValue);
 }
 
-void UZBAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
+void UZBAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet,Strength,OldStrength);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, Stamina, OldValue);
 }
 
-void UZBAttributeSet::OnRep_Dexterity(const FGameplayAttributeData& OldDexterity) const
+void UZBAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet,Dexterity,OldDexterity);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, Strength, OldValue);
 }
 
-void UZBAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
+void UZBAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet,Intelligence,OldIntelligence);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, Intelligence, OldValue);
 }
 
-
-
-void UZBAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldStamina) const
+void UZBAttributeSet::OnRep_Dexterity(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet,Stamina,OldStamina);
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, Dexterity, OldValue);
 }
 
+// --- 属性上限 ---
+void UZBAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, MaxHealth, OldValue);
+}
+
+void UZBAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, MaxMana, OldValue);
+}
+
+void UZBAttributeSet::OnRep_MaxStamina(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, MaxStamina, OldValue);
+}
+
+// --- 抗性 ---
+void UZBAttributeSet::OnRep_Toughness(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, Toughness, OldValue);
+}
+
+void UZBAttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, PhysicalResistance, OldValue);
+}
+
+void UZBAttributeSet::OnRep_MagicResistance(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, MagicResistance, OldValue);
+}
+
+// --- 回复 ---
+void UZBAttributeSet::OnRep_HealthRegenRate(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, HealthRegenRate, OldValue);
+}
+
+void UZBAttributeSet::OnRep_ManaRegenRate(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, ManaRegenRate, OldValue);
+}
+
+void UZBAttributeSet::OnRep_StaminaRegenRate(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, StaminaRegenRate, OldValue);
+}
+
+// --- 吸取 ---
+void UZBAttributeSet::OnRep_LifeSteal(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, LifeSteal, OldValue);
+}
+
+void UZBAttributeSet::OnRep_ManaSteal(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, ManaSteal, OldValue);
+}
+
+void UZBAttributeSet::OnRep_StaminaSteal(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, StaminaSteal, OldValue);
+}
+
+// --- 状态 ---
+
+void UZBAttributeSet::OnRep_CriticalChance(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, CriticalChance, OldValue);
+}
+
+void UZBAttributeSet::OnRep_CriticalDamage(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, CriticalDamage, OldValue);
+}
+
+void UZBAttributeSet::OnRep_MoveSpeed(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, MoveSpeed, OldValue);
+}
+
+void UZBAttributeSet::OnRep_StaminaCostMultiplier(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, StaminaCostMultiplier, OldValue);
+}
+
+void UZBAttributeSet::OnRep_MaxEquipmentLoad(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, MaxEquipmentLoad, OldValue);
+}

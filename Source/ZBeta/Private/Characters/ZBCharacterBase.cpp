@@ -2,8 +2,6 @@
 
 
 #include "Public/Characters/ZBCharacterBase.h"
-
-#include "AbilitySystem/ZBAbilitySystemComponent.h"
 #include "AbilitySystem/ZBAttributeSet.h"
 
 
@@ -25,6 +23,77 @@ void AZBCharacterBase::BeginPlay()
 void AZBCharacterBase::InitAbilityActorInfo()
 {
 	
+}
+
+void AZBCharacterBase::InitializePrimaryAttributes()
+{
+	check(IsValid(GetAbilitySystemComponent()));
+	check(DefaultPrimaryAttributes);
+
+	ApplyEffectToSelf(DefaultPrimaryAttributes,1.f);
+	
+}
+
+
+
+/**
+ * @brief 对自身应用一个 GameplayEffect（以指定的等级 Level）
+ * 
+ * @param GamePlayEffectClass 要应用的 GameplayEffect 类
+ * @param Level               GameplayEffect 的等级（影响数值，比如 1~100）
+ * 
+ * @details
+ * 功能说明：
+ *   - 该函数用于向“自身”应用一个 GameplayEffect，例如：
+ *       · 初始化默认属性
+ *       · 加 Buff
+ *       · 加属性
+
+ *
+ * 详细流程：
+ *   1. 检查 AbilitySystemComponent 是否有效；
+ *   2. 创建一个 EffectContext（用于记录施法者、命中来源等信息）；
+ *   3. 用 ASC 创建一个 GameplayEffectSpec（相当于一次“技能伤害/增益数据包”）；
+ *   4. 将这个 Spec 应用到自身的 ASC；
+ *
+ * 注意事项：
+ *   - SpecHandle 只是一个“句柄”，内部存的是 TSharedPtr；要获取真实的 Spec 需用 Data.Get()；
+ *   - ApplyGameplayEffectSpecToTarget 需要传递的是引用（FGameplayEffectSpec&），所以必须写成 *SpecHandle.Data.Get()；
+ *   - Target 可以是自身，也可以是敌人（这里传自身 ASC 表示作用在自己身上）。
+ */
+
+void AZBCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GamePlayEffectClass, float Level)
+{
+	// 检查 AbilitySystemComponent 是否有效，防止空指针崩溃
+	check(IsValid(GetAbilitySystemComponent()));
+	// 检查 GameplayEffect 类是否有效
+	check(GamePlayEffectClass);
+
+	// -------------------------------------------------------------
+	// ★ 第 1 步：创建效果上下文（Effect Context）
+	//   - Context 记录了“是谁施放的效果”等信息
+	//   - Context 可用于计算暴击来源、伤害来源、命中来源等
+	// -------------------------------------------------------------
+	FGameplayEffectContextHandle ContextHandle= GetAbilitySystemComponent()->MakeEffectContext();
+	// 将当前角色作为“效果来源”记录进 EffectContext（非常重要）
+	ContextHandle.AddSourceObject(this);
+	// -------------------------------------------------------------
+	// ★ 第 2 步：根据 GE 类 + 等级 + 上下文 创建一个 Spec（效果规格）
+	//   - Spec = 一次“可执行的效果数据包”
+	//   - 内部包含：数值、标签、执行逻辑、持续时间等
+	// -------------------------------------------------------------
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GamePlayEffectClass,Level,ContextHandle);
+	// -------------------------------------------------------------
+	// ★ 第 3 步：应用 Spec 到目标（这里目标是自身）
+	//   - ApplyGameplayEffectSpecToTarget 需要一个 FGameplayEffectSpec& 引用
+	//   - SpecHandle.Data 是一个 TSharedPtr<FGameplayEffectSpec>
+	//   - SpecHandle.Data.Get() 取得内部裸指针 FGameplayEffectSpec*
+	//   - *SpecHandle.Data.Get() 变成引用 FGameplayEffectSpec&
+	// -------------------------------------------------------------
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(
+		*SpecHandle.Data.Get(),// ← 把 SharedPtr 里的 Spec 取引用出来
+		GetAbilitySystemComponent()// ← 目标 ASC（这里是自身 ASC）
+		);
 }
 
 

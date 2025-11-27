@@ -31,6 +31,7 @@
 #include "ZBCharacterBase.generated.h"
 
 
+class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
 
@@ -62,16 +63,26 @@ protected:
 	 * 子类 (Player/Enemy) 会覆盖它来执行具体的初始化逻辑。
 	 */
 	virtual void InitAbilityActorInfo();
-	
-	
+
+	//初始化主属性
+	virtual void InitializePrimaryAttributes();
+
+	// @brief 对自身应用一个 GameplayEffect（按指定等级 Level）
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GamePlayEffectClass,float Level);
+
+	//GAS组件
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
-
-	
+	//属性集
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+	
+
+	
 
 
 private:
