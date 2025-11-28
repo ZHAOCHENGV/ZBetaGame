@@ -42,20 +42,25 @@ public:
     // 基础三维 (HP/MP/SP) 与 核心属性 (力/智/敏/韧)
     // ========================================================================================================
 
-    // 生命值
+    // 生命
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes", meta = (DisplayName = "生命"))
     FGameplayAttributeData Health;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Health);
 
-    // 法力值
+    // 法力
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attributes", meta = (DisplayName = "法力"))
     FGameplayAttributeData Mana;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Mana);
 
-    // 体力值
+    // 体力
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Stamina, Category = "Vital Attributes", meta = (DisplayName = "体力"))
     FGameplayAttributeData Stamina;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Stamina);
+
+	// 韧性 (削韧槽)：类似第二条血，被攻击减少，归零后角色进入“踉跄/处决”状态
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Toughness, Category = "Resistance Attributes", meta = (DisplayName = "韧性值"))
+	FGameplayAttributeData Toughness;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet, Toughness);
 
     // 力量 (通常增加物理攻击力、负重)
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes", meta = (DisplayName = "力量"))
@@ -72,10 +77,7 @@ public:
     FGameplayAttributeData Dexterity;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Dexterity);
 	
-	// 韧性 (削韧槽)：类似第二条血，被攻击减少，归零后角色进入“踉跄/处决”状态
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Toughness, Category = "Resistance Attributes", meta = (DisplayName = "韧性值"))
-	FGameplayAttributeData Toughness;
-	ATTRIBUTE_ACCESSORS(UZBAttributeSet, Toughness);
+
 	
     // --- 主要属性的网络回调声明 ---
     UFUNCTION() virtual void OnRep_Health(const FGameplayAttributeData& OldValue);
@@ -86,6 +88,8 @@ public:
     UFUNCTION() virtual void OnRep_Dexterity(const FGameplayAttributeData& OldValue);
 	UFUNCTION() virtual void OnRep_Toughness(const FGameplayAttributeData& OldValue);
 
+
+	
     // ========================================================================================================
     // 2. 核心属性上限 (Max Attributes)
     // 决定了 HP/MP/SP 的上限值
@@ -117,11 +121,12 @@ public:
     UFUNCTION() virtual void OnRep_MaxStamina(const FGameplayAttributeData& OldValue);
 	UFUNCTION() virtual void OnRep_MaxToughness(const FGameplayAttributeData& OldValue);
 
+
+	
     // ========================================================================================================
     // 3. 抗性 (Resistance)
     // 减伤与硬直抵抗
     // ========================================================================================================
-	
 	
     // 物理抗性 (即护甲，用于计算物理减伤)
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Resistance Attributes", meta = (DisplayName = "物理抗性(护甲)"))
@@ -137,6 +142,8 @@ public:
     UFUNCTION() virtual void OnRep_PhysicalResistance(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_MagicResistance(const FGameplayAttributeData& OldValue);
 
+
+	
     // ========================================================================================================
     // 4. 回复效率 (Regeneration Rates)
     // 每秒自动恢复的数值
@@ -168,8 +175,31 @@ public:
     UFUNCTION() virtual void OnRep_StaminaRegenRate(const FGameplayAttributeData& OldValue);
 	UFUNCTION() virtual void OnRep_ToughnessRegenRate(const FGameplayAttributeData& OldValue);
 
+
+
+	// ========================================================================================================
+	// 5. 体力消耗 (StaminaCost)
+	// 冲刺/闪避体力消耗率
+	// ========================================================================================================
+	
+	// 冲刺体力消耗倍率 (默认为1.0，越小消耗越少)
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_DodgeStaminaCostMultiplier, Category = "Stats Attributes", meta = (DisplayName = "体力消耗倍率"))
+	FGameplayAttributeData DodgeStaminaCostMultiplier;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet, DodgeStaminaCostMultiplier);
+
+	// 闪避体力消耗倍率 (默认为1.0，越小消耗越少)
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_SprintStaminaCostMultiplier, Category = "Stats Attributes", meta = (DisplayName = "体力消耗倍率"))
+	FGameplayAttributeData SprintStaminaCostMultiplier;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet, SprintStaminaCostMultiplier);
+	
+	// --- 回复属性的网络回调声明 ---
+	UFUNCTION() virtual void OnRep_SprintStaminaCostMultiplier(const FGameplayAttributeData& OldValue);
+	UFUNCTION() virtual void OnRep_DodgeStaminaCostMultiplier(const FGameplayAttributeData& OldValue);
+
+
+	
     // ========================================================================================================
-    // 5. 吸取/偷取 (Vamp/Steal)
+    // 6. 吸取/偷取 (Vamp/Steal)
     // 攻击命中时回复自身的比率
     // ========================================================================================================
 
@@ -183,7 +213,7 @@ public:
     FGameplayAttributeData ManaSteal;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, ManaSteal);
 
-    // 体力吸取率
+    // 体力吸取率(吸耐力)
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_StaminaSteal, Category = "Combat Attributes", meta = (DisplayName = "体力吸取率"))
     FGameplayAttributeData StaminaSteal;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, StaminaSteal);
@@ -191,10 +221,12 @@ public:
     // --- 吸取属性的网络回调声明 ---
     UFUNCTION() virtual void OnRep_LifeSteal(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_ManaSteal(const FGameplayAttributeData& OldValue);
-    UFUNCTION() virtual void OnRep_StaminaSteal(const FGameplayAttributeData& OldValue);
+    UFUNCTION() virtual void OnRep_StaminaSteal(const FGameplayAttributeData& OldValue)
+	
 
+	
     // ========================================================================================================
-    // 6. 状态、负重、暴击 (Stats & Load)
+    // 7. 状态、负重、暴击 (Stats & Load)
     // ========================================================================================================
 
 	// 暴击率 (百分比，例如 0.5 代表 50%)
@@ -212,11 +244,6 @@ public:
     FGameplayAttributeData MoveSpeed;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, MoveSpeed);
 
-    // 体力消耗倍率 (默认为1.0，越小消耗越少)
-    UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_StaminaCostMultiplier, Category = "Stats Attributes", meta = (DisplayName = "体力消耗倍率"))
-    FGameplayAttributeData StaminaCostMultiplier;
-    ATTRIBUTE_ACCESSORS(UZBAttributeSet, StaminaCostMultiplier);
-
 	// 当前装备负重 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EquipmentLoad, Category = "Stats Attributes", meta = (DisplayName = "当前装备负重"))
 	FGameplayAttributeData EquipmentLoad;
@@ -227,17 +254,10 @@ public:
     FGameplayAttributeData MaxEquipmentLoad;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, MaxEquipmentLoad);
 
-	
-
-
-
-
-
     // --- 状态属性的网络回调声明 ---
 	UFUNCTION() virtual void OnRep_CriticalChance(const FGameplayAttributeData& OldValue);
 	UFUNCTION() virtual void OnRep_CriticalDamage(const FGameplayAttributeData& OldValue);
 	UFUNCTION() virtual void OnRep_MoveSpeed(const FGameplayAttributeData& OldValue);
-    UFUNCTION() virtual void OnRep_StaminaCostMultiplier(const FGameplayAttributeData& OldValue);
 	UFUNCTION() virtual void OnRep_EquipmentLoad(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_MaxEquipmentLoad(const FGameplayAttributeData& OldValue);
 

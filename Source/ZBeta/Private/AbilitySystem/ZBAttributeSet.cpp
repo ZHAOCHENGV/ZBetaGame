@@ -143,6 +143,16 @@ void UZBAttributeSet::OnRep_ToughnessRegenRate(const FGameplayAttributeData& Old
     GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, ToughnessRegenRate, OldValue);
 }
 
+// --- 消耗 ---
+void UZBAttributeSet::OnRep_DodgeStaminaCostMultiplier(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, DodgeStaminaCostMultiplier, OldValue);
+}
+
+void UZBAttributeSet::OnRep_SprintStaminaCostMultiplier(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, SprintStaminaCostMultiplier, OldValue);
+}
 
 // --- 吸取 ---
 void UZBAttributeSet::OnRep_LifeSteal(const FGameplayAttributeData& OldValue)
@@ -175,11 +185,6 @@ void UZBAttributeSet::OnRep_CriticalDamage(const FGameplayAttributeData& OldValu
 void UZBAttributeSet::OnRep_MoveSpeed(const FGameplayAttributeData& OldValue)
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, MoveSpeed, OldValue);
-}
-
-void UZBAttributeSet::OnRep_StaminaCostMultiplier(const FGameplayAttributeData& OldValue)
-{
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, StaminaCostMultiplier, OldValue);
 }
 
 void UZBAttributeSet::OnRep_EquipmentLoad(const FGameplayAttributeData& OldValue)
