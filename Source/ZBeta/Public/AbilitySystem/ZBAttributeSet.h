@@ -39,20 +39,20 @@ public:
 
     // ========================================================================================================
     // 1. 主要属性 (Vital & Primary Attributes)
-    // 基础三维 (HP/MP/SP) 与 核心属性 (力/智/敏)
+    // 基础三维 (HP/MP/SP) 与 核心属性 (力/智/敏/韧)
     // ========================================================================================================
 
-    // 当前生命值
+    // 生命值
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes", meta = (DisplayName = "生命"))
     FGameplayAttributeData Health;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Health);
 
-    // 当前法力值
+    // 法力值
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attributes", meta = (DisplayName = "法力"))
     FGameplayAttributeData Mana;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Mana);
 
-    // 当前体力值 (用于闪避、攻击消耗)
+    // 体力值
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Stamina, Category = "Vital Attributes", meta = (DisplayName = "体力"))
     FGameplayAttributeData Stamina;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Stamina);
@@ -62,7 +62,7 @@ public:
     FGameplayAttributeData Strength;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Strength);
 
-    // 智力 (通常增加魔法攻击力、最大法力、魔抗)
+    // 智力 (通常增加魔法攻击力、最大法力)
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attributes", meta = (DisplayName = "智力"))
     FGameplayAttributeData Intelligence;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Intelligence);
@@ -71,7 +71,12 @@ public:
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Dexterity, Category = "Primary Attributes", meta = (DisplayName = "敏捷"))
     FGameplayAttributeData Dexterity;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, Dexterity);
-
+	
+	// 韧性 (削韧槽)：类似第二条血，被攻击减少，归零后角色进入“踉跄/处决”状态
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Toughness, Category = "Resistance Attributes", meta = (DisplayName = "韧性值"))
+	FGameplayAttributeData Toughness;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet, Toughness);
+	
     // --- 主要属性的网络回调声明 ---
     UFUNCTION() virtual void OnRep_Health(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_Mana(const FGameplayAttributeData& OldValue);
@@ -79,6 +84,7 @@ public:
     UFUNCTION() virtual void OnRep_Strength(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_Intelligence(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_Dexterity(const FGameplayAttributeData& OldValue);
+	UFUNCTION() virtual void OnRep_Toughness(const FGameplayAttributeData& OldValue);
 
     // ========================================================================================================
     // 2. 核心属性上限 (Max Attributes)
@@ -100,21 +106,23 @@ public:
     FGameplayAttributeData MaxStamina;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, MaxStamina);
 
+	// 最大韧性值
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxToughness, Category = "Resistance Attributes", meta = (DisplayName = "最大韧性"))
+	FGameplayAttributeData MaxToughness;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet, MaxToughness);
+
     // --- 上限属性的网络回调声明 ---
     UFUNCTION() virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_MaxMana(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_MaxStamina(const FGameplayAttributeData& OldValue);
+	UFUNCTION() virtual void OnRep_MaxToughness(const FGameplayAttributeData& OldValue);
 
     // ========================================================================================================
     // 3. 抗性 (Resistance)
     // 减伤与硬直抵抗
     // ========================================================================================================
-
-    // 韧性 (用于抵抗硬直/打断，非减伤)
-    UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Toughness, Category = "Resistance Attributes", meta = (DisplayName = "韧性"))
-    FGameplayAttributeData Toughness;
-    ATTRIBUTE_ACCESSORS(UZBAttributeSet, Toughness);
-
+	
+	
     // 物理抗性 (即护甲，用于计算物理减伤)
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Resistance Attributes", meta = (DisplayName = "物理抗性(护甲)"))
     FGameplayAttributeData PhysicalResistance;
@@ -126,7 +134,6 @@ public:
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, MagicResistance);
 
     // --- 抗性属性的网络回调声明 ---
-    UFUNCTION() virtual void OnRep_Toughness(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_PhysicalResistance(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_MagicResistance(const FGameplayAttributeData& OldValue);
 
@@ -150,10 +157,16 @@ public:
     FGameplayAttributeData StaminaRegenRate;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, StaminaRegenRate);
 
+	//韧性回复率
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ToughnessRegenRate, Category = "Resistance Attributes", meta = (DisplayName = "韧性恢复率"))
+	FGameplayAttributeData ToughnessRegenRate;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet, ToughnessRegenRate);
+
     // --- 回复属性的网络回调声明 ---
     UFUNCTION() virtual void OnRep_HealthRegenRate(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_ManaRegenRate(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_StaminaRegenRate(const FGameplayAttributeData& OldValue);
+	UFUNCTION() virtual void OnRep_ToughnessRegenRate(const FGameplayAttributeData& OldValue);
 
     // ========================================================================================================
     // 5. 吸取/偷取 (Vamp/Steal)
@@ -204,10 +217,17 @@ public:
     FGameplayAttributeData StaminaCostMultiplier;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, StaminaCostMultiplier);
 
+	// 当前装备负重 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_EquipmentLoad, Category = "Stats Attributes", meta = (DisplayName = "当前装备负重"))
+	FGameplayAttributeData EquipmentLoad;
+	ATTRIBUTE_ACCESSORS(UZBAttributeSet, EquipmentLoad);
+	
     // 最大装备负重 (决定是否超重)
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxEquipmentLoad, Category = "Stats Attributes", meta = (DisplayName = "最大装备负重"))
     FGameplayAttributeData MaxEquipmentLoad;
     ATTRIBUTE_ACCESSORS(UZBAttributeSet, MaxEquipmentLoad);
+
+	
 
 
 
@@ -218,6 +238,7 @@ public:
 	UFUNCTION() virtual void OnRep_CriticalDamage(const FGameplayAttributeData& OldValue);
 	UFUNCTION() virtual void OnRep_MoveSpeed(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_StaminaCostMultiplier(const FGameplayAttributeData& OldValue);
+	UFUNCTION() virtual void OnRep_EquipmentLoad(const FGameplayAttributeData& OldValue);
     UFUNCTION() virtual void OnRep_MaxEquipmentLoad(const FGameplayAttributeData& OldValue);
 
 

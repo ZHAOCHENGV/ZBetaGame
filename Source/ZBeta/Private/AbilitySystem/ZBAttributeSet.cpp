@@ -107,6 +107,11 @@ void UZBAttributeSet::OnRep_Toughness(const FGameplayAttributeData& OldValue)
     GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, Toughness, OldValue);
 }
 
+void UZBAttributeSet::OnRep_MaxToughness(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, MaxToughness, OldValue);
+}
+
 void UZBAttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& OldValue)
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, PhysicalResistance, OldValue);
@@ -132,6 +137,12 @@ void UZBAttributeSet::OnRep_StaminaRegenRate(const FGameplayAttributeData& OldVa
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, StaminaRegenRate, OldValue);
 }
+
+void UZBAttributeSet::OnRep_ToughnessRegenRate(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, ToughnessRegenRate, OldValue);
+}
+
 
 // --- 吸取 ---
 void UZBAttributeSet::OnRep_LifeSteal(const FGameplayAttributeData& OldValue)
@@ -169,6 +180,11 @@ void UZBAttributeSet::OnRep_MoveSpeed(const FGameplayAttributeData& OldValue)
 void UZBAttributeSet::OnRep_StaminaCostMultiplier(const FGameplayAttributeData& OldValue)
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, StaminaCostMultiplier, OldValue);
+}
+
+void UZBAttributeSet::OnRep_EquipmentLoad(const FGameplayAttributeData& OldValue)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UZBAttributeSet, EquipmentLoad, OldValue);
 }
 
 void UZBAttributeSet::OnRep_MaxEquipmentLoad(const FGameplayAttributeData& OldValue)
