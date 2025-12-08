@@ -20,13 +20,12 @@ public class ZBeta : ModuleRules
 			"UMG",
 			"Slate", 
 			"GameplayAbilities"
+		
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
-			"GameplayAbilities",
-			"GameplayTags",
-			"GameplayTasks" 
+			"GameplayTags","GameplayTasks","NavigationSystem","Niagara"
 		});
 
 		PublicIncludePaths.AddRange(new string[] {
