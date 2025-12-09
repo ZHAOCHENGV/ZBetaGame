@@ -602,13 +602,13 @@ void FZBGameplayTags::InitializeNativeTags()
 	Tags.AddTag(
 		Tags.Weapon_Type_Sword,
 		FName(TEXT("Weapon.Type.Sword")),
-		TEXT("单手剑 - 轻型剑类武器，平衡攻防，可双持，6 套连击")
+		TEXT("单手剑 - 轻型剑类武器，平衡攻防，可双持")
 	);
 	
 	Tags.AddTag(
 		Tags.Weapon_Type_Greatsword,
 		FName(TEXT("Weapon.Type.Greatsword")),
-		TEXT("巨剑/大剑 - 重型剑类武器，高伤害但速度慢，不可双持，4 套连击")
+		TEXT("巨剑/大剑 - 重型剑类武器，高伤害但速度慢，不可双持")
 	);
 	
 	Tags.AddTag(

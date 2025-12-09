@@ -3,6 +3,7 @@
 
 #include "Characters/ZBEnemyCharacter.h"
 
+#include "ZBGameplayTags.h"
 #include "AbilitySystem/ZBAbilitySystemComponent.h"
 
 
