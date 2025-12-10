@@ -25,13 +25,18 @@
  *   （这里继承虚幻原生的 Enhanced Input Component）
  */
 
-// 分类ClassGroup=(Custom),   在蓝图可创建组件meta=(BlueprintSpawnableComponent),
+// ClassGroup=(Custom) → 在编辑器中分类为 "Custom"
+// BlueprintSpawnableComponent → 允许蓝图中创建和使用此组件
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class ZBETA_API UZBEnhancedInputComponent : public UEnhancedInputComponent
 {
 	GENERATED_BODY()
 
 public:
+	
+
+	
+	
 
 	/**
 	 * @brief   绑定能力系统的输入回调函数
@@ -90,7 +95,6 @@ public:
 	template<class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
 	void BindAbilityActions(const UZBInputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, HeldFuncType HeldFunc);
 };
-
 
 
 /**

@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "ZBPlayerController.generated.h"
 
 class UZBAbilitySystemComponent;
 struct FInputActionValue;
 class UInputMappingContext;
 class UInputAction;
+class UZBInputConfig;
 /**
  * 
  */
@@ -25,36 +27,20 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
+	/*
+	 * 按键回调函数
+	 */
+	void AbilityInputPressed(FGameplayTag InputTag);
+	void AbilityInputReleased(FGameplayTag InputTag);
+	void AbilityInputHeld(FGameplayTag InputTag);
+
 private:
 	UPROPERTY(EditAnywhere,  Category = "Input", meta=(DisplayName = "默认输入映射"))
 	TObjectPtr<UInputMappingContext> DefaultInputMappingContext;
 
-	UPROPERTY(EditAnywhere,  Category = "Input|Action", meta=(DisplayName = "移动输入"))
-	TObjectPtr<UInputAction> MoveAction;
-
-	UPROPERTY(EditAnywhere,  Category = "Input|Action", meta=(DisplayName = "冲刺输入"))
-	TObjectPtr<UInputAction> SprintAction;
-
-	UPROPERTY(EditAnywhere,  Category = "Input|Action", meta=(DisplayName = "闪避输入"))
-	TObjectPtr<UInputAction> DodgeAction;
-
-	UPROPERTY(EditAnywhere,  Category = "Input|Action", meta=(DisplayName = "格挡输入"))
-	TObjectPtr<UInputAction> BlockAction;
-
-	UPROPERTY(EditAnywhere,  Category = "Input|Action", meta=(DisplayName = "普攻输入"))
-	TObjectPtr<UInputAction> AttackAction;
-
-	UPROPERTY(EditAnywhere,  Category = "Input|Action", meta=(DisplayName = "交互输入"))
-	TObjectPtr<UInputAction> InteractionAction;
+	UPROPERTY(EditAnywhere,  Category = "Input", meta=(DisplayName = "默认资产配置"))
+	UZBInputConfig* InputConfig;
 	
-	UPROPERTY(EditAnywhere,  Category = "Input|Action", meta=(DisplayName = "锁定目标输入"))
-	TObjectPtr<UInputAction> TargetLockAction;
-
-	UPROPERTY(EditAnywhere,  Category = "Input|Action", meta=(DisplayName = "菜单UI输入"))
-	TObjectPtr<UInputAction> MenusAction;
-
-	void Move(const FInputActionValue & InputActionValue);
-
 	UPROPERTY()
 	TObjectPtr<UZBAbilitySystemComponent> ZBAbilitySystemComponent;
 	UZBAbilitySystemComponent* GetASC();

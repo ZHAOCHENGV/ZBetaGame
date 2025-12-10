@@ -18,7 +18,7 @@ struct FZBInputAction
 	UPROPERTY(EditAnywhere , meta=(DisplayName ="输入操作"))
 	const UInputAction* InputAction = nullptr;
 
-	UPROPERTY(EditAnywhere , meta=(DisplayName = "输入标签"))
+	UPROPERTY(EditAnywhere , meta=(DisplayName = "输入标签" , Categories = "InputTag"))
 	FGameplayTag InputTag = FGameplayTag();
 	
 };

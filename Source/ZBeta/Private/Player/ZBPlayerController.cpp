@@ -6,6 +6,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystem/ZBAbilitySystemComponent.h"
+#include "Input/ZBEnhancedInputComponent.h"
 
 AZBPlayerController::AZBPlayerController()
 {
@@ -24,6 +25,7 @@ void AZBPlayerController::BeginPlay()
 	if (Subsystem)
 	{
 		Subsystem->AddMappingContext(DefaultInputMappingContext, 0);
+		UE_LOG(LogTemp, Warning, TEXT("EnhancedInput Subsystem 获取成功!!!"));
 	}
 	else
 	{
@@ -38,16 +40,33 @@ void AZBPlayerController::BeginPlay()
 void AZBPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	
+
+	UZBEnhancedInputComponent* ZBInputComponent = CastChecked<UZBEnhancedInputComponent>(InputComponent);
+	if (ZBInputComponent)
+	{
+		ZBInputComponent->BindAbilityActions(
+			InputConfig,
+			this,
+			&ThisClass::AbilityInputPressed,
+			&ThisClass::AbilityInputReleased,
+			&ThisClass::AbilityInputHeld);
+	}
 	
 	
 }
 
-void AZBPlayerController::Move(const FInputActionValue& InputActionValue)
+void AZBPlayerController::AbilityInputPressed(FGameplayTag InputTag)
 {
-	if (!GetASC())return;
-	
 }
+
+void AZBPlayerController::AbilityInputReleased(FGameplayTag InputTag)
+{
+}
+
+void AZBPlayerController::AbilityInputHeld(FGameplayTag InputTag)
+{
+}
+
 
 UZBAbilitySystemComponent* AZBPlayerController::GetASC()
 {
