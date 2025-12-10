@@ -40,6 +40,9 @@ private:
 
 	UPROPERTY(EditAnywhere,  Category = "Input", meta=(DisplayName = "默认资产配置"))
 	UZBInputConfig* InputConfig;
+
+	UPROPERTY(EditAnywhere ,Category = "Input", meta=(DisplayName = "移动输入操作"))
+	TObjectPtr<UInputAction> MoveAction;
 	
 	UPROPERTY()
 	TObjectPtr<UZBAbilitySystemComponent> ZBAbilitySystemComponent;
