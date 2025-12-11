@@ -40,10 +40,19 @@ void AZBPlayerController::BeginPlay()
 void AZBPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-
 	UZBEnhancedInputComponent* ZBInputComponent = CastChecked<UZBEnhancedInputComponent>(InputComponent);
-	if (ZBInputComponent)
+	if (ZBInputComponent && InputConfig)
 	{
+		// 原生输入绑定
+		ZBInputComponent->BindAction(InputConfig->MoveAction,ETriggerEvent::Triggered,this,&AZBPlayerController::Input_Move);
+		ZBInputComponent->BindAction(InputConfig->LookAction,ETriggerEvent::Triggered,this,&AZBPlayerController::Input_Look);
+		ZBInputComponent->BindAction(InputConfig->ShiftAction,ETriggerEvent::Started,this,&AZBPlayerController::Input_Sprint_Started);
+		ZBInputComponent->BindAction(InputConfig->ShiftAction,ETriggerEvent::Completed,this,&AZBPlayerController::Input_Sprint_Completed);
+		ZBInputComponent->BindAction(InputConfig->MenuAction,ETriggerEvent::Started,this,&AZBPlayerController::Input_Menu);
+		ZBInputComponent->BindAction(InputConfig->InteractionAction,ETriggerEvent::Started,this,&AZBPlayerController::Input_Interaction);
+		ZBInputComponent->BindAction(InputConfig->TargetLockAction,ETriggerEvent::Started,this,&AZBPlayerController::Input_TargetLock);
+		
+		// 能力输入绑定
 		ZBInputComponent->BindAbilityActions(
 			InputConfig,
 			this,
@@ -52,19 +61,28 @@ void AZBPlayerController::SetupInputComponent()
 			&ThisClass::AbilityInputHeld);
 	}
 	
-	
 }
 
 void AZBPlayerController::AbilityInputPressed(FGameplayTag InputTag)
 {
+	UZBAbilitySystemComponent* ASC = GetASC();
+	if (!ASC)
+	{
+		return;
+	}
+	ASC->TryActivateAbilitiesByTag(FGameplayTagContainer(InputTag));
+	UE_LOG(LogTemp, Log, TEXT("输入按下: %s"), *InputTag.ToString());
 }
 
 void AZBPlayerController::AbilityInputReleased(FGameplayTag InputTag)
 {
+	UE_LOG(LogTemp, Log, TEXT("输入释放: %s"), *InputTag.ToString());
+	
 }
 
 void AZBPlayerController::AbilityInputHeld(FGameplayTag InputTag)
 {
+	UE_LOG(LogTemp, Log, TEXT("输入长按: %s"), *InputTag.ToString());
 }
 
 
@@ -75,4 +93,32 @@ UZBAbilitySystemComponent* AZBPlayerController::GetASC()
 		ZBAbilitySystemComponent = Cast<UZBAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
 	}
 	return ZBAbilitySystemComponent;
+}
+
+void AZBPlayerController::Input_Move(const FInputActionValue& InputActionValue)
+{
+}
+
+void AZBPlayerController::Input_Look(const FInputActionValue& InputActionValue)
+{
+}
+
+void AZBPlayerController::Input_Sprint_Started()
+{
+}
+
+void AZBPlayerController::Input_Sprint_Completed()
+{
+}
+
+void AZBPlayerController::Input_Interaction()
+{
+}
+
+void AZBPlayerController::Input_TargetLock()
+{
+}
+
+void AZBPlayerController::Input_Menu()
+{
 }

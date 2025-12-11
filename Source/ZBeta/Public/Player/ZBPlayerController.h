@@ -28,25 +28,42 @@ protected:
 	virtual void SetupInputComponent() override;
 
 	/*
-	 * 按键回调函数
+	 * 能力按键回调函数
 	 */
 	void AbilityInputPressed(FGameplayTag InputTag);
 	void AbilityInputReleased(FGameplayTag InputTag);
 	void AbilityInputHeld(FGameplayTag InputTag);
 
 private:
+		
+	UPROPERTY()
+	TObjectPtr<UZBAbilitySystemComponent> ZBAbilitySystemComponent;
+	UZBAbilitySystemComponent* GetASC();
+	
 	UPROPERTY(EditAnywhere,  Category = "Input", meta=(DisplayName = "默认输入映射"))
 	TObjectPtr<UInputMappingContext> DefaultInputMappingContext;
 
 	UPROPERTY(EditAnywhere,  Category = "Input", meta=(DisplayName = "默认资产配置"))
 	UZBInputConfig* InputConfig;
 
-	UPROPERTY(EditAnywhere ,Category = "Input", meta=(DisplayName = "移动输入操作"))
-	TObjectPtr<UInputAction> MoveAction;
+
+	/*
+	 * 输入操作函数
+	 */
+	void Input_Move(const FInputActionValue& InputActionValue);
+	void Input_Look(const FInputActionValue& InputActionValue);
+	void Input_Sprint_Started();
+	void Input_Sprint_Completed();
+	void Input_Interaction();
+	void Input_TargetLock();
+	void Input_Menu();
+
+	//是否正在冲刺
+	bool bIsSprinting = false;
 	
-	UPROPERTY()
-	TObjectPtr<UZBAbilitySystemComponent> ZBAbilitySystemComponent;
-	UZBAbilitySystemComponent* GetASC();
+
+
+
 
 	
 	

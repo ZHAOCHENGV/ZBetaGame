@@ -32,8 +32,29 @@ class ZBETA_API UZBInputConfig : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly , BlueprintReadOnly, meta=(DisplayName = "输入配置数组"))
+	// ============ 能力输入 ============
+	UPROPERTY(EditDefaultsOnly , BlueprintReadOnly,Category = "Input|Native", meta=(DisplayName = "能力输入配置组"))
 	TArray<FZBInputAction> AbilityInputActions;
+
+
+	// ============ 原生输入 ============
+	UPROPERTY(EditAnywhere,Category = "Input|Native", meta=(DisplayName = "移动输入"))
+	TObjectPtr<UInputAction> MoveAction;
+
+	UPROPERTY(EditDefaultsOnly,Category = "Input|Native", meta=(DisplayName = "视角输入"))
+	TObjectPtr<UInputAction> LookAction;
+
+	UPROPERTY(EditAnywhere,Category = "Input|Native", meta=(DisplayName = "冲刺输入"))
+	TObjectPtr<UInputAction> ShiftAction;
+
+	UPROPERTY(EditDefaultsOnly,Category = "Input|Native", meta=(DisplayName = "交互输入"))
+	TObjectPtr<UInputAction> InteractionAction;
+
+	UPROPERTY(EditDefaultsOnly,Category = "Input|Native", meta=(DisplayName = "锁定输入"))
+	TObjectPtr<UInputAction> TargetLockAction;
+
+	UPROPERTY(EditDefaultsOnly,Category = "Input|Native", meta=(DisplayName = "菜单输入"))
+	TObjectPtr<UInputAction> MenuAction;
 
 	//查找标签的输入动作
 	const UInputAction* FindAbilityInputActionForTag(const FGameplayTag& InputTag) const;
