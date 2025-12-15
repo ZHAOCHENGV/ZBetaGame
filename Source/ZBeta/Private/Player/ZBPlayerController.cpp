@@ -3,6 +3,8 @@
 
 #include "Player/ZBPlayerController.h"
 
+#include <rapidjson/internal/ieee754.h>
+
 #include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystem/ZBAbilitySystemComponent.h"
@@ -90,35 +92,60 @@ UZBAbilitySystemComponent* AZBPlayerController::GetASC()
 {
 	if (ZBAbilitySystemComponent == nullptr)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("未找到 ASC 组件，开始获取 ASC 组件"));  
 		ZBAbilitySystemComponent = Cast<UZBAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
 	}
+	UE_LOG(LogTemp, Warning, TEXT("✓ 找到 ASC 组件：%s"),*ZBAbilitySystemComponent->GetName());
 	return ZBAbilitySystemComponent;
 }
 
 void AZBPlayerController::Input_Move(const FInputActionValue& InputActionValue)
 {
+	if (!GetASC())return;
+
+	FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
+	const FRotator Rotation = GetControlRotation();
+	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
+
+	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+	if (APawn* ControlledPawn = GetPawn<APawn>())
+	{
+		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);// 前后
+		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);// 左右
+	}
+	
 }
 
 void AZBPlayerController::Input_Look(const FInputActionValue& InputActionValue)
 {
+	FVector2D LookVector  = InputActionValue.Get<FVector2D>();
+	AddYawInput(LookVector.X);    // 水平 → 左右旋转
+	AddPitchInput(LookVector.Y);  // 垂直 → 上下旋转
 }
 
 void AZBPlayerController::Input_Sprint_Started()
 {
+	
 }
 
 void AZBPlayerController::Input_Sprint_Completed()
 {
+	
 }
 
 void AZBPlayerController::Input_Interaction()
 {
+	UE_LOG(LogTemp, Log, TEXT("按下交互键按键"));
 }
 
 void AZBPlayerController::Input_TargetLock()
 {
+	UE_LOG(LogTemp, Log, TEXT("按下锁定目标按键"));
 }
 
 void AZBPlayerController::Input_Menu()
 {
+	UE_LOG(LogTemp, Log, TEXT("按下菜单按键"));
 }

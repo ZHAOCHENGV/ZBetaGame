@@ -21,14 +21,14 @@ AZBPlayerCharacter::AZBPlayerCharacter()
 	
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>("TopDownCameraComponent");
 	TopDownCameraComponent->SetupAttachment(SpringArmComponent,USpringArmComponent::SocketName);
-	TopDownCameraComponent->bUsePawnControlRotation = false;
-
+	
+	/*TopDownCameraComponent->bUsePawnControlRotation = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
+	bUseControllerRotationRoll = false;*/
 
 }
 
