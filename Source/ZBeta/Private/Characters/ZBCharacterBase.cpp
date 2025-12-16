@@ -3,6 +3,7 @@
 
 #include "Public/Characters/ZBCharacterBase.h"
 #include "AbilitySystem/ZBAttributeSet.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 AZBCharacterBase::AZBCharacterBase()
@@ -25,13 +26,17 @@ void AZBCharacterBase::InitAbilityActorInfo()
 	
 }
 
-void AZBCharacterBase::InitializePrimaryAttributes()
+void AZBCharacterBase::InitializeDefaultAttributes()
 {
 	check(IsValid(GetAbilitySystemComponent()));
 	check(DefaultPrimaryAttributes);
-
-	ApplyEffectToSelf(DefaultPrimaryAttributes,1.f);
+	check(DefaultDerivedAttributes);
+	BindAttributeChangeDelegates();
 	
+	ApplyEffectToSelf(DefaultPrimaryAttributes,1.f);
+	ApplyEffectToSelf(DefaultDerivedAttributes,1.f);
+
+
 }
 
 
@@ -94,6 +99,39 @@ void AZBCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GamePlayEf
 		*SpecHandle.Data.Get(),// ← 把 SharedPtr 里的 Spec 取引用出来
 		GetAbilitySystemComponent()// ← 目标 ASC（这里是自身 ASC）
 		);
+}
+
+/**
+ * @brief 绑定属性变化委托
+ * 通常在 InitAbilityActorInfo 之后调用。
+ * 作用：监听 GAS 中 MoveSpeed 属性的数值变化，并同步给 CharacterMovement 组件。
+ */
+void AZBCharacterBase::BindAttributeChangeDelegates()
+{
+	if (!AbilitySystemComponent) return;
+	const UZBAttributeSet* ZBAttributeSet = Cast<UZBAttributeSet>(AttributeSet);
+	if (!ZBAttributeSet) return;
+
+	// 核心逻辑：
+	// 1. GetGameplayAttributeValueChangeDelegate: 获取特定属性的变化监听器
+	// 2. AddUObject: 绑定回调函数 OnMoveSpeedChanged
+	// 只要 MoveSpeed 发生变化（无论是被 GE 修改，还是升级提升），都会触发此回调
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(ZBAttributeSet->GetMoveSpeedAttribute()).AddUObject(this, &AZBCharacterBase::OnMoveSpeedChanged);
+}
+
+/**
+ * @brief 移动速度变化回调
+ * @param Data 包含了属性的新值 (NewValue) 和旧值 (OldValue)
+ */
+void AZBCharacterBase::OnMoveSpeedChanged(const FOnAttributeChangeData& Data)
+{
+	// 获取 UE 原生的移动组件
+	if (UCharacterMovementComponent* MovementComponent = GetCharacterMovement())
+	{
+		// 将 GAS 的数值 (Attribute) 赋值给 物理逻辑 (Component)
+		// 这样，当你应用 Sprint GE 时，GAS 里的 MoveSpeed 变大 -> 触发回调 -> MaxWalkSpeed 变大 -> 角色跑得快
+		MovementComponent->MaxWalkSpeed = Data.NewValue;
+	}
 }
 
 

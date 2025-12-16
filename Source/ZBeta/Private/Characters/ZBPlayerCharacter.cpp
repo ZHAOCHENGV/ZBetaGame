@@ -21,14 +21,20 @@ AZBPlayerCharacter::AZBPlayerCharacter()
 	
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>("TopDownCameraComponent");
 	TopDownCameraComponent->SetupAttachment(SpringArmComponent,USpringArmComponent::SocketName);
+	TopDownCameraComponent->bUsePawnControlRotation = false;
+
+	SpringArmComponent->bUsePawnControlRotation = true;	
+	SpringArmComponent->bInheritPitch = false;
+	SpringArmComponent->bInheritRoll = true;
+	SpringArmComponent->bInheritYaw = true;
 	
-	/*TopDownCameraComponent->bUsePawnControlRotation = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->bUseControllerDesiredRotation = false;
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;*/
+	bUseControllerRotationRoll = false;
 
 }
 
@@ -124,7 +130,7 @@ void AZBPlayerCharacter::InitAbilityActorInfo()
 	//本角色缓存 ASC / AttributeSet，统一从 PS 获取（保持与 GAS 绑定一致）
 	AbilitySystemComponent = ZBPlayerState->GetAbilitySystemComponent();
 	AttributeSet = ZBPlayerState->GetAttributeSet();
-	InitializePrimaryAttributes();
+	InitializeDefaultAttributes();
 	
 }
 

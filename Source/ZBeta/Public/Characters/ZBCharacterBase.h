@@ -34,6 +34,7 @@
 class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
+struct FOnAttributeChangeData;
 
 
 // 标记为抽象类,防止在编辑器中直接实例化
@@ -64,11 +65,19 @@ protected:
 	 */
 	virtual void InitAbilityActorInfo();
 
-	//初始化主属性
-	virtual void InitializePrimaryAttributes();
+	//初始化默认属性
+	virtual void InitializeDefaultAttributes();
 
 	// @brief 对自身应用一个 GameplayEffect（按指定等级 Level）
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GamePlayEffectClass,float Level);
+
+	// ========== 新增：属性变化绑定 ==========
+
+	//绑定属性变化回调
+	void BindAttributeChangeDelegates();
+
+	//移动速度变化调用
+	void OnMoveSpeedChanged(const FOnAttributeChangeData& Data);
 
 	//GAS组件
 	UPROPERTY()
@@ -79,8 +88,11 @@ protected:
 	TObjectPtr<UAttributeSet> AttributeSet;
 
 	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Attributes")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Attributes", meta=(DisplayName = "默认主要属性"))
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Attributes", meta=(DisplayName = "默认衍生属性"))
+	TSubclassOf<UGameplayEffect> DefaultDerivedAttributes;
 	
 
 	
