@@ -43,9 +43,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly,Category = "InputConfig|NativeInputActions", meta=(DisplayName = "视角输入"))
 	TObjectPtr<UInputAction> LookAction;
-
-	UPROPERTY(EditAnywhere,Category = "InputConfig|NativeInputActions", meta=(DisplayName = "冲刺输入"))
-	TObjectPtr<UInputAction> ShiftAction;
+	
 
 	UPROPERTY(EditDefaultsOnly,Category = "InputConfig|NativeInputActions", meta=(DisplayName = "交互输入"))
 	TObjectPtr<UInputAction> InteractionAction;

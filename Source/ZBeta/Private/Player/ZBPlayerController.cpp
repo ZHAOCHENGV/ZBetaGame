@@ -8,6 +8,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystem/ZBAbilitySystemComponent.h"
+#include "AbilitySystem/ZBAttributeSet.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Input/ZBEnhancedInputComponent.h"
@@ -50,8 +51,6 @@ void AZBPlayerController::SetupInputComponent()
 		// 原生输入绑定
 		ZBInputComponent->BindAction(InputConfig->MoveAction,ETriggerEvent::Triggered,this,&AZBPlayerController::Input_Move);
 		ZBInputComponent->BindAction(InputConfig->LookAction,ETriggerEvent::Triggered,this,&AZBPlayerController::Input_Look);
-		ZBInputComponent->BindAction(InputConfig->ShiftAction,ETriggerEvent::Started,this,&AZBPlayerController::Input_Sprint_Started);
-		ZBInputComponent->BindAction(InputConfig->ShiftAction,ETriggerEvent::Completed,this,&AZBPlayerController::Input_Sprint_Completed);
 		ZBInputComponent->BindAction(InputConfig->MenuAction,ETriggerEvent::Started,this,&AZBPlayerController::Input_Menu);
 		ZBInputComponent->BindAction(InputConfig->InteractionAction,ETriggerEvent::Started,this,&AZBPlayerController::Input_Interaction);
 		ZBInputComponent->BindAction(InputConfig->TargetLockAction,ETriggerEvent::Started,this,&AZBPlayerController::Input_TargetLock);
@@ -69,23 +68,29 @@ void AZBPlayerController::SetupInputComponent()
 
 void AZBPlayerController::AbilityInputPressed(FGameplayTag InputTag)
 {
-	UZBAbilitySystemComponent* ASC = GetASC();
-	if (!ASC)
+	if (GetASC())
 	{
-		return;
+		GetASC()->AbilityInputForTagPressed(InputTag);
 	}
-	ASC->TryActivateAbilitiesByTag(FGameplayTagContainer(InputTag));
 	UE_LOG(LogTemp, Log, TEXT("输入按下: %s"), *InputTag.ToString());
 }
 
 void AZBPlayerController::AbilityInputReleased(FGameplayTag InputTag)
 {
+	if (GetASC())
+	{
+		GetASC()->AbilityInputForTagReleased(InputTag);
+	}
 	UE_LOG(LogTemp, Log, TEXT("输入释放: %s"), *InputTag.ToString());
 	
 }
 
 void AZBPlayerController::AbilityInputHeld(FGameplayTag InputTag)
 {
+	if (GetASC())
+	{
+		GetASC()->AbilityInputForTagHeld(InputTag);
+	}
 	UE_LOG(LogTemp, Log, TEXT("输入长按: %s"), *InputTag.ToString());
 }
 
@@ -166,6 +171,12 @@ void AZBPlayerController::Input_Sprint_Started()
 	if (!SprintEffectClass)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("SprintEffectClass 未配置！"));
+		return;
+	}
+	const UZBAttributeSet* AttributeSet = ASC->GetSet<UZBAttributeSet>();
+	if (AttributeSet && AttributeSet->GetMaxStamina() < 5.f)
+	{
+		UE_LOG(LogTemp, Log, TEXT("体力不足，无法冲刺"));
 		return;
 	}
 	// 1. 创建上下文 (Context)

@@ -30,11 +30,25 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
-	/*
-	 * 能力按键回调函数
+
+	/**
+	 * @brief 能力输入按下回调
+	 * @param InputTag 触发的输入标签
+	 * 
+	 * 当能力相关的输入按下时调用，尝试激活对应的 Ability。
 	 */
 	void AbilityInputPressed(FGameplayTag InputTag);
+	/**
+	 * @brief 能力输入释放回调
+	 * @param InputTag 触发的输入标签
+	 * 
+	 * 当能力相关的输入释放时调用，用于处理蓄力攻击等。
+	 */
 	void AbilityInputReleased(FGameplayTag InputTag);
+	/**
+	 * @brief 输入持续按住时调用
+	 * @param InputTag 触发的输入标签
+	 */
 	void AbilityInputHeld(FGameplayTag InputTag);
 
 private:
