@@ -6,6 +6,7 @@
 #include "AbilitySystem/ZBAttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/GameplayCameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/ZBPlayerState.h"
 
@@ -22,6 +23,7 @@ AZBPlayerCharacter::AZBPlayerCharacter()
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>("TopDownCameraComponent");
 	TopDownCameraComponent->SetupAttachment(SpringArmComponent,USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false;
+	
 
 	SpringArmComponent->bUsePawnControlRotation = true;	
 	SpringArmComponent->bInheritPitch = false;

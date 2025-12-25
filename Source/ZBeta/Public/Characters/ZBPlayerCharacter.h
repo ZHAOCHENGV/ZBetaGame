@@ -6,6 +6,8 @@
 #include "ZBCharacterBase.h"
 #include "ZBPlayerCharacter.generated.h"
 
+class UGameplayCameraComponent;
+
 UCLASS()
 class ZBETA_API AZBPlayerCharacter : public AZBCharacterBase
 {
@@ -41,6 +43,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<class USpringArmComponent> SpringArmComponent;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UGameplayCameraComponent> TopDownGameplayCameraComponent;
 
 
 };

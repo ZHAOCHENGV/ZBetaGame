@@ -17,6 +17,7 @@ public class ZBeta : ModuleRules
 			"AIModule",
 			"StateTreeModule",
 			"GameplayStateTreeModule",
+			"GameplayCameras",
 			"UMG",
 			"Slate", 
 			"GameplayAbilities"

@@ -14,7 +14,9 @@ void UZBAbilitySystemComponent::AbilityInputForTagPressed(const FGameplayTag& In
 	// 遍历所有可激活的能力
 	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
-		if (IsValid(AbilitySpec.Ability))
+		AbilitySpecInputPressed(AbilitySpec);
+	
+		if (AbilitySpec.IsActive())
 		{
 			UZBGameplayAbility* ZBAbility = Cast<UZBGameplayAbility>(AbilitySpec.Ability);
 			if (ZBAbility && ZBAbility->InputTag.MatchesTagExact(InputTag))
