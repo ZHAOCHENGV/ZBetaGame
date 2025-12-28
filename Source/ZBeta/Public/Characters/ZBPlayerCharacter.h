@@ -6,6 +6,7 @@
 #include "ZBCharacterBase.h"
 #include "ZBPlayerCharacter.generated.h"
 
+class UGameplayAbility;
 class UGameplayCameraComponent;
 
 UCLASS()
@@ -37,6 +38,7 @@ protected:
 	// @brief 初始化 AbilitySystemComponent 的 Owner/Avatar（统一封装）
 	virtual void InitAbilityActorInfo() override;
 
+
 private:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<class UCameraComponent> TopDownCameraComponent;
@@ -46,6 +48,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UGameplayCameraComponent> TopDownGameplayCameraComponent;
+
 
 
 };

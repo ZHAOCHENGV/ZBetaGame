@@ -35,7 +35,7 @@ class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
 struct FOnAttributeChangeData;
-
+class UGameplayAbility;
 
 // 标记为抽象类,防止在编辑器中直接实例化
 UCLASS(Abstract)
@@ -95,9 +95,17 @@ protected:
 	TSubclassOf<UGameplayEffect> DefaultDerivedAttributes;
 	
 
+	void AddCharacterAbilities();
 	
 
 
 private:
+
+	
+	UPROPERTY(EditAnywhere, Category="Abilities", meta =(DisPlayName = "初始主动技能数组"))
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	UPROPERTY(EditAnywhere, Category="Abilities", meta =(DisPlayName = "初始被动技能数组"))
+	TArray<TSubclassOf<UGameplayAbility>> StartupPassiveAbilities;
 	
 };

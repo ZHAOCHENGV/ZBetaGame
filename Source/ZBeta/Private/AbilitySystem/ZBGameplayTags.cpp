@@ -1,6 +1,6 @@
 ﻿/* --- 完整文件代码 --- */
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "ZBGameplayTags.h"
+#include "AbilitySystem/ZBGameplayTags.h"
 #include "GameplayTagsManager.h"
 
 
@@ -315,6 +315,18 @@ void FZBGameplayTags::InitializeNativeTags()
 		FName(TEXT("Ability.Rune")),
 		TEXT("符文技能父标签 - 所有符文技能都应包含此标签")
 	);
+
+	Tags.AddTag(
+		Tags.Abilities_Status_UnEquipped,
+		FName(TEXT("Abilities.Status_UnEquipped")),
+		TEXT("技能状态 - 未装备")
+	);
+
+	Tags.AddTag(
+	Tags.Abilities_Status_Equipped,
+	FName(TEXT("Abilities.Status_Equipped")),
+	TEXT("技能状态 - 已装备")
+);
 
 	// ===== 角色状态 Tags 初始化 =====
 	

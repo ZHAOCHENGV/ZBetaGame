@@ -2,6 +2,8 @@
 
 
 #include "Public/Characters/ZBCharacterBase.h"
+
+#include "AbilitySystem/ZBAbilitySystemComponent.h"
 #include "AbilitySystem/ZBAttributeSet.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -134,6 +136,14 @@ void AZBCharacterBase::OnMoveSpeedChanged(const FOnAttributeChangeData& Data)
 	}
 }
 
+void AZBCharacterBase::AddCharacterAbilities()
+{
+	UZBAbilitySystemComponent* ZBASC = CastChecked<UZBAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+	ZBASC->AddCharacterAbilities(StartupAbilities);
+	ZBASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
+}
+
 
 void AZBCharacterBase::Tick(float DeltaTime)
 {
@@ -150,4 +160,3 @@ UAbilitySystemComponent* AZBCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
-

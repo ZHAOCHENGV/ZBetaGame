@@ -2,7 +2,7 @@
 
 #include "ZBeta.h"
 
-#include "ZBGameplayTags.h"
+#include "AbilitySystem/ZBGameplayTags.h"
 #include "Modules/ModuleManager.h"
 
 

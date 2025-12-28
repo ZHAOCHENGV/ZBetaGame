@@ -3,10 +3,10 @@
 
 #include "Characters/ZBPlayerCharacter.h"
 
+
 #include "AbilitySystem/ZBAttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/GameplayCameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Player/ZBPlayerState.h"
 
@@ -66,6 +66,7 @@ void AZBPlayerCharacter::PossessedBy(AController* NewController)
 	
 	//服务器初始化
 	InitAbilityActorInfo();
+	
 }
 
 /**
@@ -133,8 +134,10 @@ void AZBPlayerCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent = ZBPlayerState->GetAbilitySystemComponent();
 	AttributeSet = ZBPlayerState->GetAttributeSet();
 	InitializeDefaultAttributes();
-	
+	AddCharacterAbilities();
 }
+
+
 
 
 void AZBPlayerCharacter::Tick(float DeltaTime)

@@ -17,5 +17,14 @@ class ZBETA_API UZBAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	void AbilityInputForTagPressed(const FGameplayTag& InputTag);
 	void AbilityInputForTagReleased(const FGameplayTag& InputTag);
-	void AbilityInputForTagHeld(const FGameplayTag& InputTag);	
+	void AbilityInputForTagHeld(const FGameplayTag& InputTag);
+
+
+	/*
+	 * 授予能力
+	 */
+	bool bStartupAbilitiesGiven = false;
+	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>> & StartUpAbilities);
+	void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>> & StartUpPassiveAbilities);
+	
 };

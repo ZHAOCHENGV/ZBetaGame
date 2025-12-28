@@ -15,6 +15,6 @@ class ZBETA_API UZBGameplayAbility : public UGameplayAbility
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Input", meta = (DisplayName = "输入标签", Categories = "InputTag"))
-	FGameplayTag InputTag;
+	UPROPERTY(EditDefaultsOnly, Category = "Input", meta = (DisplayName = "启动输入标签", Categories = "InputTag"))
+	FGameplayTag StartupInputTag;
 };

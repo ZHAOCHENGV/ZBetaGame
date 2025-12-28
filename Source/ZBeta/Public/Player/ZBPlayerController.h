@@ -80,14 +80,6 @@ private:
 	 * * @param InputActionValue 增强输入系统传递的输入值，X对应Yaw，Y对应Pitch。
 	 */
 	void Input_Look(const FInputActionValue& InputActionValue);
-	/**
-	 * @brief [Input Action] 开始冲刺
-	 */
-	void Input_Sprint_Started();
-	/**
-	 * @brief [Input Action] 结束冲刺
-	 */
-	void Input_Sprint_Completed();
 	void Input_Interaction();
 	void Input_TargetLock();
 	void Input_Menu();

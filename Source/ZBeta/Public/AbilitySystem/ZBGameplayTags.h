@@ -425,7 +425,16 @@ struct FZBGameplayTags
 	 */
 	FGameplayTag Ability_Rune;
 
-	
+
+
+	/*
+	 * 技能状态
+	 */
+	//技能状态：未状态
+	FGameplayTag Abilities_Status_UnEquipped;
+	//技能状态：已状态
+	FGameplayTag Abilities_Status_Equipped;
+
 	// ========================================
 	// 第四部分：角色状态 Tags（State）
 	// ========================================
