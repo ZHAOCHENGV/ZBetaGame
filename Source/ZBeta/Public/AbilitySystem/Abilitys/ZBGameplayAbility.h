@@ -17,4 +17,12 @@ class ZBETA_API UZBGameplayAbility : public UGameplayAbility
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input", meta = (DisplayName = "启动输入标签", Categories = "InputTag"))
 	FGameplayTag StartupInputTag;
+
+
+
+protected:
+
+	float GetManaCost(float InLevel = 1.f) const;
+	float GetCooldown(float InLevel = 1.f) const;
+
 };

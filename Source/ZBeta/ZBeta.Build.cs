@@ -20,8 +20,8 @@ public class ZBeta : ModuleRules
 			"GameplayCameras",
 			"UMG",
 			"Slate", 
-			"GameplayAbilities"
-		
+			"GameplayAbilities",
+			
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
