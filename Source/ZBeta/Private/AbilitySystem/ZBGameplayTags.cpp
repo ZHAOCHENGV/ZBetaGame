@@ -324,11 +324,18 @@ void FZBGameplayTags::InitializeNativeTags()
 
 	Tags.AddTag(
 	Tags.Abilities_Status_Equipped,
-	FName(TEXT("Abilities.Status_Equipped")),
+	FName(TEXT("Abilities.Status.Equipped")),
 	TEXT("技能状态 - 已装备")
 );
 
 	// ===== 角色状态 Tags 初始化 =====
+
+	// 🔧 帧状态
+	Tags.AddTag(
+		Tags.State,
+		FName(TEXT("State")),
+		TEXT("角色状态")
+	);
 	
 	// 🔧 帧状态
 	Tags.AddTag(
@@ -391,11 +398,17 @@ void FZBGameplayTags::InitializeNativeTags()
 		FName(TEXT("State.Dodging")),
 		TEXT("正在闪避状态 - 角色执行闪避动作期间")
 	);
+
+	Tags.AddTag(
+	Tags.State_Movement_Moving,
+	FName(TEXT("State.Movement.Moving")),
+	TEXT("正在移动状态 - 角色速度 > 0，用于驱动体力消耗和动画逻辑")
+	);
 	
 	Tags.AddTag(
-		Tags.State_Sprint,
-		FName(TEXT("State.Sprint")),
-		TEXT("正在冲刺状态 - 角色加快移动速度，禁止施放技能")
+		Tags.State_Movement_Sprinting,
+		FName(TEXT("State.Movement.Sprinting")),
+		TEXT("正在冲刺状态 - 角色加快移动速度，禁止施放技能，如果正在战斗则消耗体力")
 	);
 
 	// 🔧 生命周期状态
@@ -664,7 +677,7 @@ void FZBGameplayTags::AddTag(
 	
 	// 🔧 修改 - 调用 RequestGameplayTag 注册 Tag 到系统
 	// 该方法返回已注册或新创建的 Tag 对象
-	OutTag = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	OutTag = TagManager.AddNativeGameplayTag(
 	  TagName,
 	  TagComment
   );

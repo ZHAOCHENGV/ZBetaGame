@@ -22,8 +22,5 @@ public:
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "效果" , meta=(DisplayName = "冲刺消耗"))
 	TSubclassOf<UGameplayEffect> SprintCostEffectHandle;
-
-
-	
 	
 };

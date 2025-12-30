@@ -442,12 +442,17 @@ struct FZBGameplayTags
 	// 规范：所有状态 Tag 以 State_ 前缀开头
 	// 关键原理：通过 ASC 的 AddLooseGameplayTag/RemoveLooseGameplayTag 实时管理
 	// 性能优化：状态 Tag 采用 bitflag 存储，O(1) 查询时间
+
+
+	
+
+
 	
 	/**
 	 * @section 帧状态
 	 * @brief   标识角色当前所处的特殊帧状态
 	 */
-	
+	FGameplayTag State;
 	/** 
 	 * 无敌帧状态
 	 * 含义：角色处于无敌帧中，所有伤害免疫
@@ -567,16 +572,6 @@ struct FZBGameplayTags
 	 */
 	FGameplayTag State_Dodging;
 
-	/** 
-	 * 正在冲刺状态
-	 * 含义：角色处于冲刺动作中，加快移动速度
-	 * 持续时间：InputTag_Sprint 持续输入期间
-	 * 应用：
-	 *   - 禁止施放技能
-	 *   - 提高移动速度 150%
-	 *   - 持续消耗耐力
-	 */
-	FGameplayTag State_Sprint;
 
 	/**
 	 * @section 生命周期状态
@@ -627,6 +622,27 @@ struct FZBGameplayTags
 	 */
 	FGameplayTag State_Executability;
 
+	/** * 正在移动状态
+	 * 含义：角色在地面上的水平速度 > 阈值
+	 * 触发条件：在 Character::Tick 中检测到 Velocity.SizeSquared2D() > 0
+	 * 应用：
+	 * - 允许冲刺扣除体力
+	 * - 影响脚步声播放
+	 * - 影响耐力自然恢复（移动时可能恢复较慢）
+	 */
+	FGameplayTag State_Movement_Moving;
+	/** 
+	 * 正在冲刺状态
+	 * 含义：角色处于冲刺动作中，加快移动速度
+	 * 持续时间：InputTag_Sprint 持续输入期间
+	 * 应用：
+	 *   - 禁止施放技能
+	 *   - 提高移动速度 150%
+	 *   - 持续消耗耐力
+	 */
+	FGameplayTag State_Movement_Sprinting;
+
+	
 	/**
 	 * @section 负重状态
 	 * @brief   标识角色的装备负重等级，影响闪避动画和速度

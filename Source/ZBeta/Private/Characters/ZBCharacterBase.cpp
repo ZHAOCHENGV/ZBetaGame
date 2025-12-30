@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/ZBAbilitySystemComponent.h"
 #include "AbilitySystem/ZBAttributeSet.h"
+#include "AbilitySystem/ZBGameplayTags.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -148,6 +149,40 @@ void AZBCharacterBase::AddCharacterAbilities()
 void AZBCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	// -------------------------------------------------------------------------
+	//  移动状态同步 (Velocity -> GameplayTag)
+	// -------------------------------------------------------------------------
+	if (AbilitySystemComponent)
+	{
+		// 1. 获取 Native Tag (直接从单例获取，这是最快的访问方式)
+		FGameplayTag MovingTag = FZBGameplayTags::Get().State_Movement_Moving;
+		
+		// 1.1 检查 Tag 是否有效
+		if (!MovingTag.IsValid())
+		{
+			UE_LOG(LogTemp, Error, TEXT("错误：State_Movement_Moving 未注册！请检查 ZBGameplayTags.cpp"));
+			return;
+		}
+		// 2. 获取速度平方 (只看水平移动)
+		float Speed = GetVelocity().SizeSquared2D();
+		
+		// 3. 阈值判断 (10.0f 的平方是 100.0f)
+		bool bIsMoving = Speed > 100.f;
+		
+		// 4. 检查 ASC 当前是否有此 Tag
+		bool bHasTag = AbilitySystemComponent->HasMatchingGameplayTag(MovingTag);
+		
+		// 5. 状态同步
+		if (bIsMoving && !bHasTag)
+		{
+			AbilitySystemComponent->AddLooseGameplayTag(MovingTag);
+			UE_LOG(LogTemp, Display, TEXT("正在移动中······"));
+		}else if (!bIsMoving && bHasTag)
+		{
+			AbilitySystemComponent->RemoveLooseGameplayTag(MovingTag);
+			UE_LOG(LogTemp, Display, TEXT("结束移动"));
+		}
+	}
 }
 
 

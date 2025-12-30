@@ -27,6 +27,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/Character.h"
 #include "ZBCharacterBase.generated.h"
 
@@ -96,7 +97,9 @@ protected:
 	
 
 	void AddCharacterAbilities();
-	
+
+
+
 
 
 private:
