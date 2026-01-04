@@ -94,6 +94,10 @@ protected:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Attributes", meta=(DisplayName = "默认衍生属性"))
 	TSubclassOf<UGameplayEffect> DefaultDerivedAttributes;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Attributes", meta=(DisplayName = "属性效果"))
+	TArray<TSubclassOf<UGameplayEffect>> AttributesEffects;
+	
 	
 
 	void AddCharacterAbilities();

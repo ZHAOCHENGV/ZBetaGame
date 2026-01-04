@@ -400,6 +400,13 @@ void FZBGameplayTags::InitializeNativeTags()
 	);
 
 	Tags.AddTag(
+	Tags.State_Movement_Idle,
+	FName(TEXT("State.Movement.Idle")),
+	TEXT("正在待机状态 - 角色速度 < 0")
+	);
+
+	
+	Tags.AddTag(
 	Tags.State_Movement_Moving,
 	FName(TEXT("State.Movement.Moving")),
 	TEXT("正在移动状态 - 角色速度 > 0，用于驱动体力消耗和动画逻辑")

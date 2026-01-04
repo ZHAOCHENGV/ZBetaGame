@@ -622,6 +622,9 @@ struct FZBGameplayTags
 	 */
 	FGameplayTag State_Executability;
 
+	/**待机状态*/
+	FGameplayTag State_Movement_Idle;
+
 	/** * 正在移动状态
 	 * 含义：角色在地面上的水平速度 > 阈值
 	 * 触发条件：在 Character::Tick 中检测到 Velocity.SizeSquared2D() > 0
