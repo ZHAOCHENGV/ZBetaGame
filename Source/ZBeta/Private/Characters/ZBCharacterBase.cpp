@@ -39,7 +39,7 @@ void AZBCharacterBase::InitializeDefaultAttributes()
 	ApplyEffectToSelf(DefaultPrimaryAttributes,1.f);
 	ApplyEffectToSelf(DefaultDerivedAttributes,1.f);
 	
-	for (const TSubclassOf<UGameplayEffect> EffectClass : AttributesEffects)
+	for (const TSubclassOf<UGameplayEffect>& EffectClass : AttributesEffects)
 	{
 		if (EffectClass)
 		{

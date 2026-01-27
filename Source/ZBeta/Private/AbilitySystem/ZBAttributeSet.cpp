@@ -56,6 +56,8 @@ void UZBAttributeSet::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>
 void UZBAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
     Super::PreAttributeChange(Attribute, NewValue);
+    
+    
 }
 
 void UZBAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
