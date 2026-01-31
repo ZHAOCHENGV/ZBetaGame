@@ -360,9 +360,9 @@ ensureMsgf(AbilitySystemComponent, TEXT("ASC is null on %s"), *GetName());
 3. **Common UI Course** (Vince Petrelli) - UI 框架
 
 ### 官方文档
-- [Gameplay Ability System](https://docs.unrealengine.com/5.0/en-US/gameplay-ability-system-for-unreal-engine/)
-- [Common UI Plugin](https://docs.unrealengine.com/5.0/en-US/common-ui-plugin-for-advanced-user-interfaces-in-unreal-engine/)
-- [Enhanced Input System](https://docs.unrealengine.com/5.0/en-US/enhanced-input-in-unreal-engine/)
+- [Gameplay Ability System](https://dev.epicgames.com/documentation/en-us/unreal-engine/gameplay-ability-system-for-unreal-engine?application_version=5.7)
+- [Common UI Plugin](https://dev.epicgames.com/documentation/en-us/unreal-engine/common-ui-plugin-for-advanced-user-interfaces-in-unreal-engine?application_version=5.7)
+- [Enhanced Input System](https://dev.epicgames.com/documentation/en-us/unreal-engine/enhanced-input-in-unreal-engine?application_version=5.7)
 
 ### 社区资源
 - GASDocumentation (GitHub)
