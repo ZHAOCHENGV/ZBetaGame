@@ -10,6 +10,8 @@ bool UZBBlueprintFunctionLibrary::HasGameplayTagThreadSafe(UAbilitySystemCompone
 {
 	if (ASC && TagToCheck.IsValid())
 	{
+		// 直接调用 ASC 的方法。虽然 ASC 本身不是完全线程安全的，
+		// 但读取 Tag 容器（HasMatchingGameplayTag）在动画上下文中通常被视为可接受的操作。
 		return ASC->HasMatchingGameplayTag(TagToCheck);
 	}
 	return false;
