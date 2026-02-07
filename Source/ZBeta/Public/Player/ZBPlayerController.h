@@ -25,6 +25,7 @@ class ZBETA_API AZBPlayerController : public APlayerController
 
 public:
 	AZBPlayerController();
+
 	
 protected:
 	virtual void BeginPlay() override;
@@ -85,6 +86,7 @@ private:
 	void Input_Menu();
 
 	//是否正在冲刺
+	UPROPERTY()
 	bool bIsSprinting = false;
 
 	// 冲刺效果类

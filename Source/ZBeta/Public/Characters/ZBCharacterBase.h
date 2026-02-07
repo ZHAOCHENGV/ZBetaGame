@@ -81,7 +81,7 @@ protected:
 	void OnMoveSpeedChanged(const FOnAttributeChangeData& Data);
 
 	//GAS组件
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	//属性集
