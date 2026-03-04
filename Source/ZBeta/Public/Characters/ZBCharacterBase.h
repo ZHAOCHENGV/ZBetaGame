@@ -32,6 +32,7 @@
 #include "ZBCharacterBase.generated.h"
 
 
+
 class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
